@@ -4,6 +4,8 @@
 
 #include <QtTest>
 
+using namespace QtFMOD;
+
 #define chk(obj)                                                            \
     if (obj.error() != 0) {                                                 \
         QFAIL(qPrintable(obj.errorString()));                               \

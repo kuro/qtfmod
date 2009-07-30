@@ -14,6 +14,8 @@
 
 struct SystemPrivate;
 
+namespace QtFMOD
+{
 class System : public QObject
 {
     Q_OBJECT
@@ -39,5 +41,6 @@ public slots:
 private:
     QSharedDataPointer<SystemPrivate> d;
 };
+} // namespace QtFMOD
 
 // vim: sw=4

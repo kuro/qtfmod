@@ -10,6 +10,8 @@
 
 #include <QDebug>
 
+using namespace QtFMOD;
+
 #define make_uuid(guid)                                                     \
     QUuid(guid.Data1, guid.Data2, guid.Data3,                               \
           guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3],       \
