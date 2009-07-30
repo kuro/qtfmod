@@ -4,6 +4,7 @@ find_path(FMOD_INCLUDE_DIR
     /opt/fmodex/api/inc
     /usr/include/fmodex
     "C:/Program Files/FMOD SoundSystem/FMOD Programmers API Win32/api/inc"
+    "/Developer/FMOD Programmers API Mac/api/inc"
     )
 
 find_path(FMOD_EVENT_INCLUDE_DIR
@@ -11,6 +12,7 @@ find_path(FMOD_EVENT_INCLUDE_DIR
     PATHS
     /opt/fmodex/fmoddesignerapi/api/inc
     "C:/Program Files/FMOD SoundSystem/FMOD Programmers API Win32/fmoddesignerapi/api/inc"
+    "/Developer/FMOD Programmers API Mac/fmoddesignerapi/api/inc"
     )
 
 if (UNIX)
@@ -18,16 +20,19 @@ if (UNIX)
         NAMES fmodex
         PATHS
         /opt/fmodex/api/lib
+        "/Developer/FMOD Programmers API Mac/api/lib"
         )
     find_library(FMOD_EVENT_LIBRARY
         NAMES fmodevent
         PATHS
         /opt/fmodex/fmoddesignerapi/api/lib
+        "/Developer/FMOD Programmers API Mac/fmoddesignerapi/api/lib"
         )
     find_library(FMOD_EVENT_NET_LIBRARY
         NAMES fmodeventnet
         PATHS
         /opt/fmodex/fmoddesignerapi/api/lib
+        "/Developer/FMOD Programmers API Mac/fmoddesignerapi/api/lib"
         )
 elseif (MSVC)
     find_library(FMOD_LIBRARY

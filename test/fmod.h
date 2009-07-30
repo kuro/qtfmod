@@ -14,6 +14,7 @@ class TestFMOD : public QObject
 
 private slots:
     void initialize ();
+    void drivers ();
 };
 
 
