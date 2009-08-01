@@ -12,7 +12,8 @@
 
 #include <fmod.hpp>
 
-struct SystemPrivate;
+#include "Sound.h"
+#include "Channel.h"
 
 namespace QtFMOD
 {
@@ -35,11 +36,30 @@ public:
 
     operator FMOD::System* () const;
 
+    // sound
+    Sound* createSound (const QString& name,
+                        FMOD_MODE mode = FMOD_DEFAULT,
+                        FMOD_CREATESOUNDEXINFO* exinfo = NULL
+                        );
+    Sound* createStream (const QString& name,
+                         FMOD_MODE mode = FMOD_DEFAULT,
+                         FMOD_CREATESOUNDEXINFO* exinfo = NULL
+                         );
+
+    Channel* playSound (FMOD_CHANNELINDEX channel_id, Sound* sound,
+                        bool paused = false);
+
 public slots:
     void update ();
 
+public:
+    FMOD_RESULT callback (FMOD_SYSTEM* channel,
+                          FMOD_SYSTEM_CALLBACKTYPE type,
+                          void* command_data1, void* command_data2);
+
 private:
-    QSharedDataPointer<SystemPrivate> d;
+    struct Private;
+    Private* d;
 };
 } // namespace QtFMOD
 

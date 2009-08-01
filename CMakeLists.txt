@@ -7,4 +7,6 @@ find_package(Qt4 COMPONENTS QtCore QtTest REQUIRED)
 include(${QT_USE_FILE})
 include_directories(${FMOD_INCLUDE_DIRS})
 
+add_definitions(-Wall -Wextra -Werror)
+
 subdirs(src test)
