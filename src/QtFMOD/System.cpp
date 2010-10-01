@@ -33,29 +33,6 @@
 
 using namespace QtFMOD;
 
-static
-FMOD_RESULT system_callback (FMOD_SYSTEM* fsystem,
-                             FMOD_SYSTEM_CALLBACKTYPE type,
-                             void* command_data1, void* command_data2)
-{
-    FMOD_RESULT fr;
-    System* system = NULL;
-
-    fr = FMOD_System_GetUserData(fsystem, (void**)&system);
-
-    if (fr != FMOD_OK) {
-        qCritical() << FMOD_ErrorString(fr);
-        return FMOD_OK;
-    }
-
-    if (system) {
-        return system->callback(fsystem, type, command_data1, command_data2);
-    } else {
-        qCritical() << "user data for system is undefined";
-        return FMOD_OK;
-    }
-}
-
 #define make_uuid(guid)                                                     \
     QUuid(guid.Data1, guid.Data2, guid.Data3,                               \
           guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3],       \
@@ -126,7 +103,7 @@ void System::init (int max_channels, FMOD_INITFLAGS flags)
 {
     d->fr = d->fsystem->init(max_channels, flags, NULL);
 
-    d->fsystem->setCallback(system_callback);
+    d->fsystem->setCallback(System::callback);
 }
 
 void System::close ()
@@ -195,17 +172,32 @@ Channel* System::playSound (FMOD_CHANNELINDEX channel_id, Sound* sound,
     return new Channel(fchan, this);
 }
 
-FMOD_RESULT System::callback (FMOD_SYSTEM* system,
+/**
+ * Static system callback.
+ */
+FMOD_RESULT System::callback (FMOD_SYSTEM* fsystem,
                               FMOD_SYSTEM_CALLBACKTYPE type,
                               void* command_data1,
                               void* command_data2)
 {
-    Q_UNUSED(system);
     Q_UNUSED(command_data1);
     Q_UNUSED(command_data2);
 
-    Q_ASSERT(system == reinterpret_cast<FMOD_SYSTEM*>(d->fsystem));
+    FMOD_RESULT fr;
+    System* system = NULL;
 
+    // get QtFMOD::System from the user data
+    fr = FMOD_System_GetUserData(fsystem, (void**)&system);
+
+    if (fr != FMOD_OK) {
+        qCritical() << FMOD_ErrorString(fr);
+        return FMOD_OK;
+    }
+
+    Q_ASSERT(system);
+    Q_ASSERT(fsystem == reinterpret_cast<FMOD_SYSTEM*>(system->d->fsystem));
+
+    // process callback
     switch (type) {
     case FMOD_SYSTEM_CALLBACKTYPE_DEVICELISTCHANGED:
         qDebug() << "callback: system: devicelistchanged";
