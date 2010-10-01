@@ -47,14 +47,17 @@ public:
     void setPaused (bool paused);
     bool paused () const;
 
-    operator FMOD::Channel* () const;
+    operator FMOD::Channel*& () const;
 
 signals:
     void soundEnded ();
 
 private:
-    Channel (FMOD::Channel* fsnd, QObject* parent = NULL);
+    Channel ();
     friend class System;
+
+    void setInternalPointer (FMOD::Channel* fchannel);
+    FMOD::Channel* internalPointer () const;
 
 public:
     static FMOD_RESULT callback (FMOD_CHANNEL* channel,

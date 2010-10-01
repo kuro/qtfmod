@@ -116,8 +116,8 @@ void System::update ()
     d->fr = d->fsystem->update();
 }
 
-Sound* System::createSound (const QString& name, FMOD_MODE mode,
-                            FMOD_CREATESOUNDEXINFO* exinfo)
+QSharedPointer<Sound> System::createSound (const QString& name, FMOD_MODE mode,
+                                           FMOD_CREATESOUNDEXINFO* exinfo)
 {
     FMOD_CREATESOUNDEXINFO default_info;
 
@@ -137,11 +137,11 @@ Sound* System::createSound (const QString& name, FMOD_MODE mode,
 
     FMOD::Sound* fsnd = NULL;
     d->fr = d->fsystem->createSound(name.toUtf8(), mode, exinfo, &fsnd);
-    return new Sound(fsnd, this);
+    return QSharedPointer<Sound>(new Sound(fsnd));
 }
 
-Sound* System::createStream (const QString& name, FMOD_MODE mode,
-                             FMOD_CREATESOUNDEXINFO* exinfo)
+QSharedPointer<Sound> System::createStream (const QString& name, FMOD_MODE mode,
+                                            FMOD_CREATESOUNDEXINFO* exinfo)
 {
     FMOD_CREATESOUNDEXINFO default_info;
 
@@ -161,15 +161,23 @@ Sound* System::createStream (const QString& name, FMOD_MODE mode,
 
     FMOD::Sound* fsnd = NULL;
     d->fr = d->fsystem->createStream(name.toUtf8(), mode, exinfo, &fsnd);
-    return new Sound(fsnd, this);
+    return QSharedPointer<Sound>(new Sound(fsnd));
 }
 
-Channel* System::playSound (FMOD_CHANNELINDEX channel_id, Sound* sound,
-                            bool paused)
+void System::playSound (FMOD_CHANNELINDEX channel_id,
+                        QSharedPointer<Sound> sound,
+                        bool paused, QSharedPointer<Channel>& channel)
 {
-    FMOD::Channel* fchan = NULL;
-    d->fr = d->fsystem->playSound(channel_id, *sound, paused, &fchan);
-    return new Channel(fchan, this);
+    if (!channel) {
+        channel = QSharedPointer<Channel>(new Channel);
+    }
+
+    FMOD::Channel* fchan = channel->internalPointer();
+
+    d->fr = d->fsystem->playSound(channel_id, sound->internalPointer(),
+                                  paused, &fchan);
+
+    channel->setInternalPointer(fchan);
 }
 
 /**

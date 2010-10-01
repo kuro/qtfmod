@@ -38,19 +38,26 @@ struct Sound::Private
     }
     ~Private ()
     {
-        /// @todo Should release be automatic?
-        //fr = fsound->release();
+        fr = fsound->release();
     }
 };
 
-Sound::Sound (FMOD::Sound* fsound, QObject* parent) :
-    QObject(parent),
+/**
+ * @note This is intended to be wrapped in a shared pointer, without a parent.
+ */
+Sound::Sound (FMOD::Sound* fsound) :
+    QObject(),
     d(new Private(fsound))
 {
 }
 
 Sound::~Sound ()
 {
+}
+
+FMOD::Sound* Sound::internalPointer () const
+{
+    return d->fsound;
 }
 
 bool Sound::isNull () const
@@ -68,14 +75,9 @@ QString Sound::errorString () const
     return FMOD_ErrorString(d->fr);
 }
 
-Sound::operator FMOD::Sound* () const
+Sound::operator FMOD::Sound*& () const
 {
     return d->fsound;
-}
-
-void Sound::release ()
-{
-    d->fr = d->fsound->release();
 }
 
 // vim: sw=4

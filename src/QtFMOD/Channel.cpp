@@ -32,8 +32,7 @@ struct Channel::Private
     mutable FMOD_RESULT fr;
     FMOD::Channel* fchannel;
 
-    Private (FMOD::Channel* fchannel) :
-        fchannel(fchannel)
+    Private ()
     {
     }
     ~Private ()
@@ -41,16 +40,29 @@ struct Channel::Private
     }
 };
 
-Channel::Channel (FMOD::Channel* fchannel, QObject* parent) :
-    QObject(parent),
-    d(new Private(fchannel))
+/**
+ * @note This is intended to be wrapped in a shared pointer, without a parent.
+ */
+Channel::Channel () :
+    QObject(),
+    d(new Private)
 {
-    d->fchannel->setUserData(this);
-    d->fchannel->setCallback(Channel::callback);
 }
 
 Channel::~Channel ()
 {
+}
+
+void Channel::setInternalPointer (FMOD::Channel* fchannel)
+{
+    d->fchannel = fchannel;
+    d->fchannel->setUserData(this);
+    d->fchannel->setCallback(Channel::callback);
+}
+
+FMOD::Channel* Channel::internalPointer () const
+{
+    return d->fchannel;
 }
 
 bool Channel::isNull () const
@@ -68,7 +80,7 @@ QString Channel::errorString () const
     return FMOD_ErrorString(d->fr);
 }
 
-Channel::operator FMOD::Channel* () const
+Channel::operator FMOD::Channel*& () const
 {
     return d->fchannel;
 }

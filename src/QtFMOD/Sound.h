@@ -39,13 +39,12 @@ public:
 
     bool isNull () const;
 
-    operator FMOD::Sound* () const;
+    operator FMOD::Sound*& () const;
 
-public slots:
-    void release ();
+    FMOD::Sound* internalPointer () const;
 
 private:
-    Sound (FMOD::Sound* fsound, QObject* parent = NULL);
+    Sound (FMOD::Sound* fsound);
     friend class System;
 
 private:

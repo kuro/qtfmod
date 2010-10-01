@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QUuid>
+#include <QSharedPointer>
 
 #include <fmod.hpp>
 
@@ -52,17 +53,17 @@ public:
     operator FMOD::System* () const;
 
     // sound
-    Sound* createSound (const QString& name,
-                        FMOD_MODE mode = FMOD_DEFAULT,
-                        FMOD_CREATESOUNDEXINFO* exinfo = NULL
-                        );
-    Sound* createStream (const QString& name,
-                         FMOD_MODE mode = FMOD_DEFAULT,
-                         FMOD_CREATESOUNDEXINFO* exinfo = NULL
-                         );
+    QSharedPointer<Sound> createSound (const QString& name,
+                                       FMOD_MODE mode = FMOD_DEFAULT,
+                                       FMOD_CREATESOUNDEXINFO* exinfo = NULL
+                                      );
+    QSharedPointer<Sound> createStream (const QString& name,
+                                        FMOD_MODE mode = FMOD_DEFAULT,
+                                        FMOD_CREATESOUNDEXINFO* exinfo = NULL
+                                       );
 
-    Channel* playSound (FMOD_CHANNELINDEX channel_id, Sound* sound,
-                        bool paused = false);
+    void playSound (FMOD_CHANNELINDEX channel_id, QSharedPointer<Sound> sound,
+                    bool paused, QSharedPointer<Channel>& channel);
 
 public slots:
     void update ();
