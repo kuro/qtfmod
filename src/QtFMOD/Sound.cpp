@@ -21,6 +21,8 @@
 
 #include "Sound.moc"
 
+#include "Tag.h"
+
 #include <fmod_errors.h>
 
 #include <QDebug>
@@ -31,6 +33,7 @@ struct Sound::Private
 {
     mutable FMOD_RESULT fr;
     FMOD::Sound* fsound;
+    QHash<QString, Tag> tags;
 
     Private (FMOD::Sound* fsound) :
         fsound(fsound)
@@ -78,6 +81,43 @@ QString Sound::errorString () const
 Sound::operator FMOD::Sound*& () const
 {
     return d->fsound;
+}
+
+/**
+ * Performs an update before returning the accumulated tags.
+ *
+ * @note Redundant tags will be overwritten.
+ */
+QHash<QString, Tag> Sound::tags (int* nbUpdated) const
+{
+    if (nbUpdated) {
+        d->fr = d->fsound->getNumTags(NULL, nbUpdated);
+        if (d->fr != FMOD_OK) {
+            return d->tags;
+        }
+    }
+
+    // manually clear updated flags of existing tags
+    QHashIterator<QString, QtFMOD::Tag> it (d->tags);
+    while (it.hasNext()) {
+        it.next();
+        const_cast<Tag&>(it.value()).setUpdated(false);
+    }
+
+    // ask fmod for updated tags
+    FMOD_TAG ftag;
+    while ((d->fr = d->fsound->getTag(NULL, -1, &ftag)) == FMOD_OK) {
+        Tag tag (ftag);
+        d->tags.insert(tag.name(), tag);
+    }
+
+    if (d->fr == FMOD_ERR_TAGNOTFOUND) {
+        d->fr = FMOD_OK;
+    } else {
+        qWarning("unexpected fmod result after reading tags: %d", d->fr);
+    }
+
+    return d->tags;
 }
 
 // vim: sw=4

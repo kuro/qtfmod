@@ -22,8 +22,11 @@
 #pragma once
 
 #include <QObject>
+#include <QHash>
 
 #include <fmod.hpp>
+
+#include "Tag.h"
 
 namespace QtFMOD
 {
@@ -42,6 +45,8 @@ public:
     operator FMOD::Sound*& () const;
 
     FMOD::Sound* internalPointer () const;
+
+    QHash<QString, Tag> tags (int* nbUpdated) const;
 
 private:
     Sound (FMOD::Sound* fsound);

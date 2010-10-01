@@ -8,6 +8,8 @@ set(sources
     QtFMOD/Sound.cpp
     QtFMOD/Channel.h
     QtFMOD/Channel.cpp
+    QtFMOD/Tag.h
+    QtFMOD/Tag.cpp
     fileio.h
     fileio.cpp
     )
