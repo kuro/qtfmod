@@ -22,7 +22,6 @@
 #pragma once
 
 #include <QObject>
-#include <QSharedDataPointer>
 
 #include <fmod.hpp>
 
@@ -33,7 +32,7 @@ class Channel : public QObject
     Q_OBJECT
 
 public:
-    ~Channel ();
+    virtual ~Channel ();
 
     Channel (const Channel& other);
     Channel& operator= (const Channel& other);
@@ -45,13 +44,16 @@ public:
 
     bool isPlaying () const;
 
+    void setPaused (bool paused);
+    bool paused () const;
+
     operator FMOD::Channel* () const;
 
 signals:
     void soundEnded ();
 
 private:
-    Channel (FMOD::Channel* fsnd);
+    Channel (FMOD::Channel* fsnd, QObject* parent = NULL);
     friend class System;
 
 public:
@@ -61,7 +63,7 @@ public:
 
 private:
     struct Private;
-    Private* d;
+    QScopedPointer<Private> d;
 };
 } // namespace QtFMOD
 

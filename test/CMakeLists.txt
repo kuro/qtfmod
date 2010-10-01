@@ -5,6 +5,7 @@ qt4_automoc(${file_list})
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../src
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${FMOD_INCLUDE_DIRS}
     )
 add_executable(driver ${file_list})
 target_link_libraries(driver QtFMOD ${QT_LIBRARIES} ${FMOD_LIBRARIES})

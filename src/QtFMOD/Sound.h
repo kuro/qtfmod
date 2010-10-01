@@ -22,7 +22,6 @@
 #pragma once
 
 #include <QObject>
-#include <QSharedDataPointer>
 
 #include <fmod.hpp>
 
@@ -33,7 +32,7 @@ class Sound : public QObject
     Q_OBJECT
 
 public:
-    ~Sound ();
+    virtual ~Sound ();
 
     int error () const;
     QString errorString () const;
@@ -42,13 +41,16 @@ public:
 
     operator FMOD::Sound* () const;
 
+public slots:
+    void release ();
+
 private:
-    Sound (FMOD::Sound* fsound);
+    Sound (FMOD::Sound* fsound, QObject* parent = NULL);
     friend class System;
 
 private:
     struct Private;
-    Private* d;
+    QScopedPointer<Private> d;
 };
 } // namespace QtFMOD
 

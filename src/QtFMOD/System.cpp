@@ -22,6 +22,9 @@
 #include "System.moc"
 #include "fileio.h"
 
+#include "Sound.h"
+#include "Channel.h"
+
 #include <fmod_errors.h>
 #include <QFile>
 
@@ -59,7 +62,7 @@ FMOD_RESULT system_callback (FMOD_SYSTEM* fsystem,
           guid.Data4[4], guid.Data4[5], guid.Data4[6], guid.Data4[7]        \
          );
 
-struct System::Private : public QSharedData
+struct System::Private
 {
     mutable FMOD_RESULT fr;
     FMOD::System* fsystem;
@@ -74,7 +77,8 @@ struct System::Private : public QSharedData
     }
 };
 
-System::System () :
+System::System (QObject* parent) :
+    QObject(parent),
     d(new System::Private)
 {
     d->fr = FMOD::System_Create(&d->fsystem);
@@ -135,20 +139,10 @@ void System::update ()
     d->fr = d->fsystem->update();
 }
 
-#include <QSharedPointer>
-class Blah : public QObject
-{
-public:
-    Blah () { qDebug() << "blah in"; }
-    ~Blah () { qDebug() << "blah out"; }
-};
-
 Sound* System::createSound (const QString& name, FMOD_MODE mode,
                             FMOD_CREATESOUNDEXINFO* exinfo)
 {
     FMOD_CREATESOUNDEXINFO default_info;
-
-    QSharedPointer<Blah> blah (new Blah);
 
     if (exinfo == NULL) {
         exinfo = &default_info;
@@ -166,7 +160,7 @@ Sound* System::createSound (const QString& name, FMOD_MODE mode,
 
     FMOD::Sound* fsnd = NULL;
     d->fr = d->fsystem->createSound(name.toUtf8(), mode, exinfo, &fsnd);
-    return new Sound(fsnd);
+    return new Sound(fsnd, this);
 }
 
 Sound* System::createStream (const QString& name, FMOD_MODE mode,
@@ -190,7 +184,7 @@ Sound* System::createStream (const QString& name, FMOD_MODE mode,
 
     FMOD::Sound* fsnd = NULL;
     d->fr = d->fsystem->createStream(name.toUtf8(), mode, exinfo, &fsnd);
-    return new Sound(fsnd);
+    return new Sound(fsnd, this);
 }
 
 Channel* System::playSound (FMOD_CHANNELINDEX channel_id, Sound* sound,
@@ -198,7 +192,7 @@ Channel* System::playSound (FMOD_CHANNELINDEX channel_id, Sound* sound,
 {
     FMOD::Channel* fchan = NULL;
     d->fr = d->fsystem->playSound(channel_id, *sound, paused, &fchan);
-    return new Channel(fchan);
+    return new Channel(fchan, this);
 }
 
 FMOD_RESULT System::callback (FMOD_SYSTEM* system,

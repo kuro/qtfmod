@@ -27,25 +27,26 @@
 
 using namespace QtFMOD;
 
-struct Sound::Private : public QSharedData
+struct Sound::Private
 {
     mutable FMOD_RESULT fr;
     FMOD::Sound* fsound;
 
-    Private () :
-        fsound(NULL)
+    Private (FMOD::Sound* fsound) :
+        fsound(fsound)
     {
     }
     ~Private ()
     {
-        fr = fsound->release();
+        /// @todo Should release be automatic?
+        //fr = fsound->release();
     }
 };
 
-Sound::Sound (FMOD::Sound* fsound) :
-    d(new Private)
+Sound::Sound (FMOD::Sound* fsound, QObject* parent) :
+    QObject(parent),
+    d(new Private(fsound))
 {
-    d->fsound = fsound;
 }
 
 Sound::~Sound ()
@@ -70,6 +71,11 @@ QString Sound::errorString () const
 Sound::operator FMOD::Sound* () const
 {
     return d->fsound;
+}
+
+void Sound::release ()
+{
+    d->fr = d->fsound->release();
 }
 
 // vim: sw=4

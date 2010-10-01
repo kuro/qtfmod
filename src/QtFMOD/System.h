@@ -22,23 +22,23 @@
 #pragma once
 
 #include <QObject>
-#include <QSharedDataPointer>
 #include <QUuid>
 
 #include <fmod.hpp>
 
-#include "Sound.h"
-#include "Channel.h"
-
 namespace QtFMOD
 {
+
+class Sound;
+class Channel;
+
 class System : public QObject
 {
     Q_OBJECT
 
 public:
-    System ();
-    ~System ();
+    System (QObject* parent = NULL);
+    virtual ~System ();
 
     int error () const;
     QString errorString () const;
@@ -74,7 +74,7 @@ public:
 
 private:
     struct Private;
-    Private* d;
+    QScopedPointer<Private> d;
 };
 } // namespace QtFMOD
 

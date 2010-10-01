@@ -1,15 +1,18 @@
+
+project(QtFMOD)
+
 set(sources
-    System.h
-    System.cpp
-    Sound.h
-    Sound.cpp
-    Channel.h
-    Channel.cpp
+    QtFMOD/System.h
+    QtFMOD/System.cpp
+    QtFMOD/Sound.h
+    QtFMOD/Sound.cpp
+    QtFMOD/Channel.h
+    QtFMOD/Channel.cpp
     fileio.h
     fileio.cpp
     )
 qt4_automoc(${sources})
 include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
+    ${FMOD_INCLUDE_DIRS}
     )
 add_library(QtFMOD ${sources})

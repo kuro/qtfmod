@@ -50,13 +50,13 @@ FMOD_RESULT channel_callback (FMOD_CHANNEL* fchannel,
     }
 }
 
-struct Channel::Private : public QSharedData
+struct Channel::Private
 {
     mutable FMOD_RESULT fr;
     FMOD::Channel* fchannel;
 
-    Private () :
-        fchannel(NULL)
+    Private (FMOD::Channel* fchannel) :
+        fchannel(fchannel)
     {
     }
     ~Private ()
@@ -64,11 +64,10 @@ struct Channel::Private : public QSharedData
     }
 };
 
-Channel::Channel (FMOD::Channel* fchannel) :
-    d(new Private)
+Channel::Channel (FMOD::Channel* fchannel, QObject* parent) :
+    QObject(parent),
+    d(new Private(fchannel))
 {
-    d->fchannel = fchannel;
-
     d->fchannel->setUserData(this);
     d->fchannel->setCallback(channel_callback);
 }
@@ -135,6 +134,18 @@ FMOD_RESULT Channel::callback (FMOD_CHANNEL* channel,
     }
 
     return FMOD_OK;
+}
+
+void Channel::setPaused (bool paused)
+{
+    d->fr = d->fchannel->setPaused(paused);
+}
+
+bool Channel::paused () const
+{
+    bool paused;
+    d->fr = d->fchannel->getPaused(&paused);
+    return paused;
 }
 
 // vim: sw=4
