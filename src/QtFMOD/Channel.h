@@ -22,11 +22,16 @@
 #pragma once
 
 #include <QObject>
+#include <QSharedPointer>
 
 #include <fmod.hpp>
 
 namespace QtFMOD
 {
+
+class DSP;
+class DSPConnection;
+
 class Channel : public QObject
 {
     Q_OBJECT
@@ -53,6 +58,8 @@ public:
                    FMOD_DSP_FFT_WINDOW windowType) const;
 
     void waveData (QVector<float>& waveArray, int channelOffset) const;
+
+    QSharedPointer<DSPConnection> addDSP (QSharedPointer<DSP>& dsp);
 
 signals:
     void soundEnded ();

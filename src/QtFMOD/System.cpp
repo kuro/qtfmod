@@ -24,6 +24,8 @@
 
 #include "Sound.h"
 #include "Channel.h"
+#include "DSP.h"
+#include "DSPConnection.h"
 
 #include <fmod_errors.h>
 #include <QFile>
@@ -247,6 +249,20 @@ void System::waveData (QVector<float>& waveArray, int channelOffset) const
 {
     d->fr = d->fsystem->getWaveData(waveArray.data(), waveArray.size(),
                                     channelOffset);
+}
+
+QSharedPointer<DSP> System::createDSP (FMOD_DSP_TYPE type)
+{
+    FMOD::DSP* fdsp = NULL;
+    d->fr = d->fsystem->createDSPByType(type, &fdsp);
+    return QSharedPointer<DSP>(new DSP(fdsp));
+}
+
+QSharedPointer<DSPConnection> System::addDSP (QSharedPointer<DSP>& dsp)
+{
+    FMOD::DSPConnection* fdspConnection = NULL;
+    d->fr = d->fsystem->addDSP(dsp->internalPointer(), &fdspConnection);
+    return QSharedPointer<DSPConnection>(new DSPConnection(fdspConnection));
 }
 
 // vim: sw=4

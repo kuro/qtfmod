@@ -32,6 +32,8 @@ namespace QtFMOD
 
 class Sound;
 class Channel;
+class DSP;
+class DSPConnection;
 
 class System : public QObject
 {
@@ -69,6 +71,9 @@ public:
                    FMOD_DSP_FFT_WINDOW windowType) const;
 
     void waveData (QVector<float>& waveArray, int channelOffset) const;
+
+    QSharedPointer<DSP> createDSP (FMOD_DSP_TYPE type);
+    QSharedPointer<DSPConnection> addDSP (QSharedPointer<DSP>& dsp);
 
 public slots:
     void update ();

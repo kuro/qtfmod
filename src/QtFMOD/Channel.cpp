@@ -21,6 +21,9 @@
 
 #include "Channel.moc"
 
+#include "DSP.h"
+#include "DSPConnection.h"
+
 #include <fmod_errors.h>
 
 #include <QDebug>
@@ -169,6 +172,13 @@ void Channel::waveData (QVector<float>& waveArray, int channelOffset) const
 {
     d->fr = d->fchannel->getWaveData(waveArray.data(), waveArray.size(),
                                      channelOffset);
+}
+
+QSharedPointer<DSPConnection> Channel::addDSP (QSharedPointer<DSP>& dsp)
+{
+    FMOD::DSPConnection* fdspConnection = NULL;
+    d->fr = d->fchannel->addDSP(dsp->internalPointer(), &fdspConnection);
+    return QSharedPointer<DSPConnection>(new DSPConnection(fdspConnection));
 }
 
 // vim: sw=4

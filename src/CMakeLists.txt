@@ -10,6 +10,10 @@ set(sources
     QtFMOD/Channel.cpp
     QtFMOD/Tag.h
     QtFMOD/Tag.cpp
+    QtFMOD/DSP.h
+    QtFMOD/DSP.cpp
+    QtFMOD/DSPConnection.h
+    QtFMOD/DSPConnection.cpp
     fileio.h
     fileio.cpp
     )
