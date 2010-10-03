@@ -36,6 +36,7 @@ struct Sound::Private
     QHash<QString, Tag> tags;
 
     Private (FMOD::Sound* fsound) :
+        fr(FMOD_OK),
         fsound(fsound)
     {
     }

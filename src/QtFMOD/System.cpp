@@ -47,6 +47,7 @@ struct System::Private
     FMOD::System* fsystem;
 
     Private () :
+        fr(FMOD_OK),
         fsystem(NULL)
     {
     }

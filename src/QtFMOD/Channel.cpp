@@ -35,7 +35,9 @@ struct Channel::Private
     mutable FMOD_RESULT fr;
     FMOD::Channel* fchannel;
 
-    Private ()
+    Private () :
+        fr(FMOD_OK),
+        fchannel(NULL)
     {
     }
     ~Private ()
