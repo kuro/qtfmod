@@ -230,4 +230,23 @@ FMOD_RESULT System::callback (FMOD_SYSTEM* fsystem,
     return FMOD_OK;
 }
 
+/**
+ * @param spectrumArray A power of two (64 to 8192).
+ */
+void System::spectrum (QVector<float>& spectrumArray, int channelOffset,
+                       FMOD_DSP_FFT_WINDOW windowType) const
+{
+    d->fr = d->fsystem->getSpectrum(spectrumArray.data(), spectrumArray.size(),
+                                    channelOffset, windowType);
+}
+
+/**
+ * @param waveArray Max size 16384.
+ */
+void System::waveData (QVector<float>& waveArray, int channelOffset) const
+{
+    d->fr = d->fsystem->getWaveData(waveArray.data(), waveArray.size(),
+                                    channelOffset);
+}
+
 // vim: sw=4

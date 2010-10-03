@@ -152,4 +152,23 @@ bool Channel::paused () const
     return paused;
 }
 
+/**
+ * @param array A power of two (64 to 8192).
+ */
+void Channel::spectrum (QVector<float>& array, int channelOffset,
+                        FMOD_DSP_FFT_WINDOW windowType) const
+{
+    d->fr = d->fchannel->getSpectrum(array.data(), array.size(),
+                                     channelOffset, windowType);
+}
+
+/**
+ * @param waveArray Max size 16384.
+ */
+void Channel::waveData (QVector<float>& waveArray, int channelOffset) const
+{
+    d->fr = d->fchannel->getWaveData(waveArray.data(), waveArray.size(),
+                                     channelOffset);
+}
+
 // vim: sw=4

@@ -65,6 +65,11 @@ public:
     void playSound (FMOD_CHANNELINDEX channel_id, QSharedPointer<Sound> sound,
                     bool paused, QSharedPointer<Channel>& channel);
 
+    void spectrum (QVector<float>& spectrumArray, int channelOffset,
+                   FMOD_DSP_FFT_WINDOW windowType) const;
+
+    void waveData (QVector<float>& waveArray, int channelOffset) const;
+
 public slots:
     void update ();
 

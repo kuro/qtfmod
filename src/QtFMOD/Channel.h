@@ -49,6 +49,11 @@ public:
 
     operator FMOD::Channel*& () const;
 
+    void spectrum (QVector<float>& array, int channelOffset,
+                   FMOD_DSP_FFT_WINDOW windowType) const;
+
+    void waveData (QVector<float>& waveArray, int channelOffset) const;
+
 signals:
     void soundEnded ();
 
