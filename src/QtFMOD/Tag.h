@@ -45,6 +45,8 @@ public:
 
     bool updated () const;
 
+    QImage toImage () const;
+
 private:
     struct Private;
     QSharedDataPointer<Private> d;

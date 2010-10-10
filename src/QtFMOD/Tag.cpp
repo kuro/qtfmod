@@ -22,6 +22,9 @@
 #include "Tag.h"
 
 #include <QString>
+#include <QImage>
+#include <QBuffer>
+#include <QDebug>
 
 using namespace QtFMOD;
 
@@ -118,4 +121,50 @@ QVariant Tag::value () const
 bool Tag::updated () const
 {
     return d->ftag.updated;
+}
+
+QImage Tag::toImage () const
+{
+    if (name() == "APIC") {
+        QBuffer dev;
+        dev.setData(data());
+        dev.open(QIODevice::ReadOnly);
+
+        quint8 textEncoding;
+        QString mimeType;
+        quint8 pictureType;
+        QString description;
+        QByteArray pictureData;
+
+        quint8 c;
+
+        dev.getChar((char*)&textEncoding);
+
+        forever {
+            dev.getChar((char*)&c);
+            if (c == 0) {
+                break;
+            }
+            mimeType.append(c);
+        }
+
+        dev.getChar((char*)&pictureType);
+
+        forever {
+            dev.getChar((char*)&c);
+            if (c == 0) {
+                break;
+            }
+            description.append(c);
+        }
+
+        pictureData = dev.readAll();
+
+        dev.close();
+
+        return QImage::fromData(pictureData);
+    } else {
+        qWarning() << "tag" << name() << "is not an image";
+        return QImage();
+    }
 }
