@@ -72,9 +72,10 @@ private:
     FMOD::Channel* internalPointer () const;
 
 public:
-    static FMOD_RESULT callback (FMOD_CHANNEL* channel,
-                                 FMOD_CHANNEL_CALLBACKTYPE type,
-                                 void* command_data1, void* command_data2);
+    static FMOD_RESULT F_CALLBACK callback (
+        FMOD_CHANNEL* channel,
+        FMOD_CHANNEL_CALLBACKTYPE type,
+        void* command_data1, void* command_data2);
 
 private:
     struct Private;

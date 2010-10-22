@@ -186,10 +186,10 @@ void System::playSound (FMOD_CHANNELINDEX channel_id,
 /**
  * Static system callback.
  */
-FMOD_RESULT System::callback (FMOD_SYSTEM* fsystem,
-                              FMOD_SYSTEM_CALLBACKTYPE type,
-                              void* command_data1,
-                              void* command_data2)
+FMOD_RESULT F_CALLBACK System::callback (FMOD_SYSTEM* fsystem,
+                                         FMOD_SYSTEM_CALLBACKTYPE type,
+                                         void* command_data1,
+                                         void* command_data2)
 {
     Q_UNUSED(command_data1);
     Q_UNUSED(command_data2);

@@ -79,9 +79,10 @@ public slots:
     void update ();
 
 public:
-    static FMOD_RESULT callback (FMOD_SYSTEM* channel,
-                                 FMOD_SYSTEM_CALLBACKTYPE type,
-                                 void* command_data1, void* command_data2);
+    static FMOD_RESULT F_CALLBACK callback (
+        FMOD_SYSTEM* channel,
+        FMOD_SYSTEM_CALLBACKTYPE type,
+        void* command_data1, void* command_data2);
 
 private:
     struct Private;

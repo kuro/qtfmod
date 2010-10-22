@@ -100,10 +100,10 @@ bool Channel::isPlaying () const
 /**
  * Static channel callback.
  */
-FMOD_RESULT Channel::callback (FMOD_CHANNEL* fchannel,
-                               FMOD_CHANNEL_CALLBACKTYPE type,
-                               void* command_data1,
-                               void* command_data2)
+FMOD_RESULT F_CALLBACK Channel::callback (FMOD_CHANNEL* fchannel,
+                                          FMOD_CHANNEL_CALLBACKTYPE type,
+                                          void* command_data1,
+                                          void* command_data2)
 {
     Q_UNUSED(command_data1);
     Q_UNUSED(command_data2);
