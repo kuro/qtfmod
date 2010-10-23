@@ -52,6 +52,9 @@ public:
     void setPaused (bool paused);
     bool paused () const;
 
+    void setVolume (float volume);
+    float volume () const;
+
     operator FMOD::Channel*& () const;
 
     void spectrum (QVector<float>& array, int channelOffset,

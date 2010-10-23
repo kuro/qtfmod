@@ -160,6 +160,18 @@ bool Channel::paused () const
     return paused;
 }
 
+void Channel::setVolume (float volume)
+{
+    d->fr = d->fchannel->setVolume(volume);
+}
+
+float Channel::volume () const
+{
+    float volume;
+    d->fr = d->fchannel->getVolume(&volume);
+    return volume;
+}
+
 /**
  * @param array A power of two (64 to 8192).
  */
