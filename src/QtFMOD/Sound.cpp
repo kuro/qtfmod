@@ -69,6 +69,18 @@ bool Sound::isNull () const
     return (d->fsound == NULL);
 }
 
+void Sound::set3DMinMaxDistance (float min, float max)
+{
+    d->fr = d->fsound->set3DMinMaxDistance(min, max);
+}
+
+QPair<float, float> Sound::get3DMinMaxDistance () const
+{
+    QPair<float, float> p;
+    d->fr = d->fsound->get3DMinMaxDistance(&p.first, &p.second);
+    return p;
+}
+
 int Sound::error () const
 {
     return d->fr;

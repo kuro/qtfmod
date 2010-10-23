@@ -61,6 +61,11 @@ public:
 
     QSharedPointer<DSPConnection> addDSP (QSharedPointer<DSP>& dsp);
 
+    /// @name 3D functionality
+    //@{
+    void set3DAttributes (const float* pos, const float* vel = NULL);
+    //@}
+
 signals:
     void soundEnded ();
 

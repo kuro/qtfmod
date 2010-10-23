@@ -75,8 +75,27 @@ public:
     QSharedPointer<DSP> createDSP (FMOD_DSP_TYPE type);
     QSharedPointer<DSPConnection> addDSP (QSharedPointer<DSP>& dsp);
 
+    /// @name general post-init system functions
+    //@{
+
 public slots:
     void update ();
+
+public:
+
+    void set3DSettings (float dopplerScale, float distanceFactor,
+                        float rolloffScale);
+    void get3DSettings (float* dopplerScale, float* distanceFactor,
+                        float* rolloffScale);
+
+    void set3DNumListeners (int nbListeners);
+
+    void set3DListenerAttributes (int listener,
+                                  const float* pos,
+                                  const float* vel,
+                                  const float* forward,
+                                  const float* up);
+    //@}
 
 public:
     static FMOD_RESULT F_CALLBACK callback (

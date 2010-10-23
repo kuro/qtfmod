@@ -186,4 +186,12 @@ QSharedPointer<DSPConnection> Channel::addDSP (QSharedPointer<DSP>& dsp)
     return QSharedPointer<DSPConnection>(new DSPConnection(fdspConnection));
 }
 
+void Channel::set3DAttributes (const float* pos, const float* vel)
+{
+    d->fr = d->fchannel->set3DAttributes(
+        reinterpret_cast<const FMOD_VECTOR*>(pos),
+        reinterpret_cast<const FMOD_VECTOR*>(vel)
+        );
+}
+
 // vim: sw=4

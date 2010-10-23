@@ -42,6 +42,14 @@ public:
 
     bool isNull () const;
 
+    /// @name standard sound manipulation functions
+    //@{
+
+    void set3DMinMaxDistance (float min, float max);
+    QPair<float, float> get3DMinMaxDistance () const;
+
+    //@}
+
     operator FMOD::Sound*& () const;
 
     FMOD::Sound* internalPointer () const;

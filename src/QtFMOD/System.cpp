@@ -119,6 +119,40 @@ void System::update ()
     d->fr = d->fsystem->update();
 }
 
+void System::set3DSettings (float dopplerScale, float distanceFactor,
+                            float rolloffScale)
+{
+    d->fr = d->fsystem->set3DSettings(dopplerScale, distanceFactor,
+                                      rolloffScale);
+}
+
+void System::get3DSettings (float* dopplerScale, float* distanceFactor,
+                            float* rolloffScale)
+{
+    d->fr = d->fsystem->get3DSettings(dopplerScale, distanceFactor,
+                                      rolloffScale);
+}
+
+void System::set3DNumListeners (int nbListeners)
+{
+    d->fr = d->fsystem->set3DNumListeners(nbListeners);
+}
+
+void System::set3DListenerAttributes (int listener,
+                                      const float* pos,
+                                      const float* vel,
+                                      const float* forward,
+                                      const float* up)
+{
+    d->fr = d->fsystem->set3DListenerAttributes(
+        listener,
+        reinterpret_cast<const FMOD_VECTOR*>(pos),
+        reinterpret_cast<const FMOD_VECTOR*>(vel),
+        reinterpret_cast<const FMOD_VECTOR*>(forward),
+        reinterpret_cast<const FMOD_VECTOR*>(up)
+        );
+}
+
 QSharedPointer<Sound> System::createSound (const QString& name, FMOD_MODE mode,
                                            FMOD_CREATESOUNDEXINFO* exinfo)
 {
