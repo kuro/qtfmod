@@ -56,6 +56,9 @@ Channel::Channel () :
 
 Channel::~Channel ()
 {
+    // this channel may still be playing.  this is just a wrapper, and channels
+    // can't be released, so remove the callback
+    d->fchannel->setCallback(NULL);
 }
 
 void Channel::setInternalPointer (FMOD::Channel* fchannel)
