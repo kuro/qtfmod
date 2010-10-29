@@ -54,7 +54,7 @@ public:
 
     FMOD::Sound* internalPointer () const;
 
-    QHash<QString, Tag> tags (int* nbUpdated) const;
+    QHash<QString, Tag> tags (int* nbUpdated = NULL) const;
 
 private:
     Sound (FMOD::Sound* fsound);
