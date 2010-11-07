@@ -83,21 +83,6 @@ QByteArray Tag::data () const
 }
 
 /**
- * Removes null characters from the end of a string.
- *
- * @todo Consider performance.
- */
-static inline
-QString sanitize (const QString& str)
-{
-    QString retval (str);
-    while (retval.endsWith(QChar('\0'))) {
-        retval.chop(1);
-    }
-    return retval;
-}
-
-/**
  * @todo resolve unsupported types
  * @todo check tag data lengths
  */
@@ -113,18 +98,15 @@ QVariant Tag::value () const
     //case FMOD_TAGDATATYPE_FLOAT:
     //    break;
     case FMOD_TAGDATATYPE_STRING:
-        retval = sanitize(QString::fromLocal8Bit((char*)d->ftag.data,
-                                                 d->ftag.datalen));
+        retval = QString::fromLocal8Bit((char*)d->ftag.data);
         break;
     case FMOD_TAGDATATYPE_STRING_UTF16:
-        retval = sanitize(QString::fromUtf16((ushort*)d->ftag.data,
-                                             d->ftag.datalen));
+        retval = QString::fromUtf16((ushort*)d->ftag.data);
         break;
     //case FMOD_TAGDATATYPE_STRING_UTF16BE:
     //    break;
     case FMOD_TAGDATATYPE_STRING_UTF8:
-        retval = sanitize(QString::fromUtf8((char*)d->ftag.data,
-                                            d->ftag.datalen));
+        retval = QString::fromUtf8((char*)d->ftag.data);
         break;
     //case FMOD_TAGDATATYPE_CDTOC:
     //    break;
