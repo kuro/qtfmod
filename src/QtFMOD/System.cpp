@@ -164,7 +164,6 @@ QSharedPointer<Sound> System::createSound (const QString& name, FMOD_MODE mode,
         default_info.cbsize = sizeof(default_info);
 
         if (QFile::exists(name)) {
-            qDebug() << "using qt io";
             default_info.useropen  = qtfmod_file_open;
             default_info.userclose = qtfmod_file_close;
             default_info.userread  = qtfmod_file_read;
@@ -188,7 +187,6 @@ QSharedPointer<Sound> System::createStream (const QString& name, FMOD_MODE mode,
         default_info.cbsize = sizeof(default_info);
 
         if (QFile::exists(name)) {
-            qDebug() << "using qt io";
             default_info.useropen  = qtfmod_file_open;
             default_info.userclose = qtfmod_file_close;
             default_info.userread  = qtfmod_file_read;
