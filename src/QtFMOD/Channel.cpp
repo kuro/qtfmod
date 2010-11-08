@@ -191,6 +191,18 @@ void Channel::waveData (QVector<float>& waveArray, int channelOffset) const
                                      channelOffset);
 }
 
+void Channel::setPosition (unsigned int position, FMOD_TIMEUNIT timeUnit)
+{
+    d->fr = d->fchannel->setPosition(position, timeUnit);
+}
+
+unsigned int Channel::position (FMOD_TIMEUNIT timeUnit) const
+{
+    unsigned int position;
+    d->fr = d->fchannel->getPosition(&position, timeUnit);
+    return position;
+}
+
 QSharedPointer<DSPConnection> Channel::addDSP (QSharedPointer<DSP>& dsp)
 {
     FMOD::DSPConnection* fdspConnection = NULL;

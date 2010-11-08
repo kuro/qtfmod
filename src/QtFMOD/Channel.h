@@ -64,6 +64,12 @@ public:
 
     QSharedPointer<DSPConnection> addDSP (QSharedPointer<DSP>& dsp);
 
+    /// @name Standard functionality
+    //@{
+    void setPosition (unsigned int position, FMOD_TIMEUNIT timeUnit);
+    unsigned int position (FMOD_TIMEUNIT timeUnit) const;
+    //@}
+
     /// @name 3D functionality
     //@{
     void set3DAttributes (const float* pos, const float* vel = NULL);
