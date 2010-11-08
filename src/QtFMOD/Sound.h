@@ -48,6 +48,8 @@ public:
     void set3DMinMaxDistance (float min, float max);
     QPair<float, float> get3DMinMaxDistance () const;
 
+    unsigned int length (FMOD_TIMEUNIT timeUnit) const;
+
     //@}
 
     operator FMOD::Sound*& () const;

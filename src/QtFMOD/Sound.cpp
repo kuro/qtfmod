@@ -81,6 +81,13 @@ QPair<float, float> Sound::get3DMinMaxDistance () const
     return p;
 }
 
+unsigned int Sound::length (FMOD_TIMEUNIT timeUnit) const
+{
+    unsigned int length;
+    d->fr = d->fsound->getLength(&length, timeUnit);
+    return length;
+}
+
 int Sound::error () const
 {
     return d->fr;
