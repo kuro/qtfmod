@@ -34,7 +34,7 @@ FMOD_RESULT F_CALLBACK qtfmod_file_open (
     Q_UNUSED(userdata);
 
     // not checking the unicode flag
-    QString fileName (QString::fromLocal8Bit(name));
+    QString fileName (QString::fromUtf8(name));
 
     QFile* file = new QFile (fileName);
 
