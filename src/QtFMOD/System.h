@@ -46,8 +46,13 @@ public:
     int error () const;
     QString errorString () const;
 
+    FMOD_OUTPUTTYPE output () const;
+    void setOutput (FMOD_OUTPUTTYPE output);
+
     int numDrivers () const;
     void driverInfo (int id, QString& name, QUuid& uuid) const;
+
+    int driver () const;
 
     void init (int max_channels, FMOD_INITFLAGS flags = FMOD_INIT_NORMAL);
     void close ();

@@ -79,6 +79,18 @@ QString System::errorString () const
     return FMOD_ErrorString(d->fr);
 }
 
+FMOD_OUTPUTTYPE System::output () const
+{
+    FMOD_OUTPUTTYPE output;
+    d->fr = d->fsystem->getOutput(&output);
+    return output;
+}
+
+void System::setOutput (FMOD_OUTPUTTYPE output)
+{
+    d->fr = d->fsystem->setOutput(output);
+}
+
 int System::numDrivers () const
 {
     int num;
@@ -95,6 +107,13 @@ void System::driverInfo (int id, QString& name, QUuid& uuid) const
 
     name = name_buf;
     uuid = make_uuid(guid);
+}
+
+int System::driver () const
+{
+    int retval;
+    d->fr = d->fsystem->getDriver(&retval);
+    return retval;
 }
 
 System::operator FMOD::System* () const
